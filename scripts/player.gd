@@ -10,7 +10,7 @@ extends CharacterBody2D
 # Призыв лансеров
 @export var lancer_scene: PackedScene
 @export var lancer_cooldown: float = 8.0
-@export var lancer_count: int = 6
+@export var lancer_count: int = 4
 @export var lancer_spawn_radius: float = 50.0
 
 var lancer_timer: float = 0.0

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://sd6dt4dp67p2" path="res://scenes/lancer.tscn" id="4_lancer"]
 [ext_resource type="PackedScene" uid="uid://hud000000001" path="res://scenes/HUD.tscn" id="5_hud"]
 [ext_resource type="PackedScene" uid="uid://cwm1cltqeahq3" path="res://scenes/enemy_archer.tscn" id="6_archer"]
+[ext_resource type="PackedScene" uid="uid://q745ncq8c7kg" path="res://scenes/enemy_lancer.tscn" id="7_elancer"]
 
 [node name="Node2D" type="Node2D" unique_id=246739829]
 
@@ -18,7 +19,7 @@ lancer_scene = ExtResource("4_lancer")
 
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=368084111]
 script = ExtResource("3_0bbpv")
-enemy_scenes = [ExtResource("2_0bbpv"), ExtResource("6_archer")]
+enemy_scenes = [ExtResource("2_0bbpv"), ExtResource("6_archer"), ExtResource("7_elancer")]
 arena = NodePath("../Arena")
 start_count = 3
 count_per_wave = 2
