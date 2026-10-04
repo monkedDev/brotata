@@ -1,0 +1,12 @@
+# Godot 4
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+
+# Godot 3
+.import/
+
+# Системное
+.DS_Store
+Thumbs.db

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cyjhgk2lg1kde"]
+
+[ext_resource type="PackedScene" uid="uid://igj6fesg4f8i" path="res://scenes/player.tscn" id="1_rvslj"]
+[ext_resource type="PackedScene" uid="uid://ci40iwdy6ssmy" path="res://scenes/Enemy_Knight.tscn" id="2_0bbpv"]
+[ext_resource type="Script" uid="uid://b3cj21bc2p5ri" path="res://scripts/EnemySpawner.gd" id="3_0bbpv"]
+
+[node name="Node2D" type="Node2D" unique_id=246739829]
+
+[node name="player" parent="." unique_id=617093328 instance=ExtResource("1_rvslj")]
+position = Vector2(541, 319)
+
+[node name="enemy" parent="." unique_id=243381688 instance=ExtResource("2_0bbpv")]
+position = Vector2(40, 119)
+speed = 60.0
+max_health = 100.0
+damage = 15.0
+attack_range = 50.0
+attack_cooldown = 1.0
+
+[node name="EnemySpawner" type="Node2D" parent="." unique_id=368084111]
+script = ExtResource("3_0bbpv")
+enemy_scene = ExtResource("2_0bbpv")
