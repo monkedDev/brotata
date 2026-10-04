@@ -204,20 +204,15 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h8avn"]
-radius = 6.0
-height = 20.0
+radius = 9.0
+height = 28.0
 
 [node name="enemy" type="CharacterBody2D" unique_id=243381688]
 script = ExtResource("1_bcxgp")
-speed = null
-max_health = null
-damage = null
-attack_range = null
-attack_cooldown = null
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=940685251]
 position = Vector2(-1.9073486e-06, 5.722046e-06)
-scale = Vector2(0.3260417, 0.32604167)
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_yts6y")
 animation = &"walk"
 frame_progress = 0.1818805

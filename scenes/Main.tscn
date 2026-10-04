@@ -3,20 +3,27 @@
 [ext_resource type="PackedScene" uid="uid://igj6fesg4f8i" path="res://scenes/player.tscn" id="1_rvslj"]
 [ext_resource type="PackedScene" uid="uid://ci40iwdy6ssmy" path="res://scenes/Enemy_Knight.tscn" id="2_0bbpv"]
 [ext_resource type="Script" uid="uid://b3cj21bc2p5ri" path="res://scripts/EnemySpawner.gd" id="3_0bbpv"]
+[ext_resource type="PackedScene" uid="uid://sd6dt4dp67p2" path="res://scenes/lancer.tscn" id="4_lancer"]
+[ext_resource type="PackedScene" uid="uid://hud000000001" path="res://scenes/HUD.tscn" id="5_hud"]
+[ext_resource type="PackedScene" uid="uid://cwm1cltqeahq3" path="res://scenes/enemy_archer.tscn" id="6_archer"]
 
 [node name="Node2D" type="Node2D" unique_id=246739829]
 
-[node name="player" parent="." unique_id=617093328 instance=ExtResource("1_rvslj")]
+[node name="Arena" type="Node2D" parent="." unique_id=1000001]
 position = Vector2(541, 319)
 
-[node name="enemy" parent="." unique_id=243381688 instance=ExtResource("2_0bbpv")]
-position = Vector2(40, 119)
-speed = 60.0
-max_health = 100.0
-damage = 15.0
-attack_range = 50.0
-attack_cooldown = 1.0
+[node name="player" parent="." unique_id=617093328 instance=ExtResource("1_rvslj")]
+position = Vector2(541, 319)
+lancer_scene = ExtResource("4_lancer")
 
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=368084111]
 script = ExtResource("3_0bbpv")
-enemy_scene = ExtResource("2_0bbpv")
+enemy_scenes = [ExtResource("2_0bbpv"), ExtResource("6_archer")]
+arena = NodePath("../Arena")
+start_count = 3
+count_per_wave = 2
+max_alive = 16
+wave_delay = 4.0
+spawn_delay = 0.2
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]

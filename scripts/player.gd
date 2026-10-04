@@ -7,6 +7,14 @@ extends CharacterBody2D
 @export var attack_cooldown: float = 0.5
 @export var guard_damage_reduction: float = 0.5
 
+# Призыв лансеров
+@export var lancer_scene: PackedScene
+@export var lancer_cooldown: float = 8.0
+@export var lancer_count: int = 6
+@export var lancer_spawn_radius: float = 50.0
+
+var lancer_timer: float = 0.0
+
 signal health_changed(new_health: float, max_health: float)
 signal died
 
@@ -55,6 +63,23 @@ func _physics_process(_delta: float) -> void:
 		melee_attack()
 	if Input.is_action_just_pressed("special_attack"):
 		special_attack()
+
+	# Призыв лансеров по кнопке L
+	lancer_timer = max(0.0, lancer_timer - _delta)
+	if Input.is_key_pressed(KEY_L) and lancer_timer <= 0.0:
+		_summon_lancers()
+
+func _summon_lancers() -> void:
+	if not lancer_scene:
+		push_warning("Player: не задана lancer_scene")
+		return
+	lancer_timer = lancer_cooldown
+	for i in range(lancer_count):
+		var lancer := lancer_scene.instantiate()
+		get_parent().add_child(lancer)
+		var angle := TAU * i / lancer_count
+		var offset := Vector2.RIGHT.rotated(angle) * lancer_spawn_radius
+		lancer.global_position = global_position + offset
 
 func melee_attack() -> void:
 	if not can_attack or is_guarding:
@@ -133,6 +158,7 @@ func get_nearest_enemy_in_range():
 func take_damage(amount: float) -> void:
 	if is_guarding:
 		amount *= guard_damage_reduction
+	amount *= 0.04  # Игрок получает только 4% от урона рыцарей
 	current_health -= amount
 	health_changed.emit(current_health, max_health)
 	if current_health <= 0:

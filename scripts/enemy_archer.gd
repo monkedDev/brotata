@@ -1,14 +1,15 @@
 extends CharacterBody2D
 
-@export var speed: float = 45.0
-@export var max_health: float = 60.0
+@export var speed: float = 35.0
+@export var max_health: float = 40.0
 @export var damage: float = 10.0
-@export var attack_range: float = 40.0
-@export var attack_cooldown: float = 1.5
+@export var attack_range: float = 150.0
+@export var attack_cooldown: float = 2.5
+@export var arrow_scene: PackedScene
 @export var separation_radius: float = 28.0
 @export var separation_force: float = 40.0
 
-@onready var sprite: AnimatedSprite2D = $Sprite  # проверь, что нода врага реально называется Sprite
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var current_health: float
 var target: Node2D
@@ -22,6 +23,9 @@ func _ready() -> void:
 	target = _find_nearest_target()
 
 func _physics_process(_delta: float) -> void:
+	if is_attacking:
+		return
+
 	# Каждый кадр ищем ближайшую цель
 	target = _find_nearest_target()
 	if not target:
@@ -58,7 +62,6 @@ func _find_nearest_target():
 	return nearest
 
 func _separation() -> Vector2:
-	# Расталкивание, чтобы враги не слипались в одну точку
 	var push := Vector2.ZERO
 	for other in get_tree().get_nodes_in_group("enemies"):
 		if other == self or not is_instance_valid(other):
@@ -76,10 +79,13 @@ func try_attack() -> void:
 	can_attack = false
 	sprite.play("attack")
 
-	if is_instance_valid(target) and target.has_method("take_damage"):
-		target.take_damage(damage)
+	await get_tree().create_timer(0.3).timeout
+	if not is_instance_valid(self) or is_queued_for_deletion():
+		return
 
-	await get_tree().create_timer(attack_cooldown).timeout
+	_shoot_arrow()
+
+	await get_tree().create_timer(attack_cooldown - 0.3).timeout
 	if not is_instance_valid(self) or is_queued_for_deletion():
 		return
 	is_attacking = false
@@ -89,6 +95,17 @@ func try_attack() -> void:
 		sprite.play("walk")
 	else:
 		sprite.play("idle")
+
+func _shoot_arrow() -> void:
+	if not arrow_scene:
+		return
+	if not is_instance_valid(target):
+		return
+	var arrow := arrow_scene.instantiate()
+	get_tree().current_scene.add_child(arrow)
+	arrow.global_position = global_position
+	var dir: Vector2 = (target.global_position - global_position).normalized()
+	arrow.setup(dir, damage)
 
 func take_damage(amount: float) -> void:
 	current_health -= amount

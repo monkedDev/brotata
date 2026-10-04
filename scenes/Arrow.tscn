@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://rrow00000001"]
+
+[ext_resource type="Script" uid="uid://cptvda4uep445" path="res://scripts/arrow.gd" id="1_arrow"]
+[ext_resource type="Texture2D" uid="uid://dk68lkq1rxh60" path="res://assets/Units/Red Units/Archer/Arrow.png" id="2_arrow"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bcxgp"]
+size = Vector2(25, 13.888893)
+
+[node name="Arrow" type="Area2D" unique_id=1215420708]
+script = ExtResource("1_arrow")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=161192191]
+texture = ExtResource("2_arrow")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=428354615]
+position = Vector2(2.5, -0.5)
+scale = Vector2(1, 0.3599999)
+shape = SubResource("RectangleShape2D_bcxgp")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
